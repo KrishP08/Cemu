@@ -187,6 +187,7 @@ jobs:
       run: Rename-Item bin/Cemu_release.exe Cemu.exe
 
     - name: Build NSIS Installer
+      if: ${{ inputs.next_version_major != '' }}
       shell: cmd
       run: |
         cd src\resource
@@ -199,6 +200,7 @@ jobs:
         path: ./bin/Cemu.exe
 
     - name: Upload NSIS Installer
+      if: ${{ inputs.next_version_major != '' }}
       uses: actions/upload-artifact@v6
       with:
         name: cemu-installer-windows-x64
