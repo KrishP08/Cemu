@@ -5,6 +5,9 @@
 DSUController::DSUController(uint32 index)
 	: base_type(fmt::format("{}", index), fmt::format("Controller {}", index + 1)), m_index(index)
 {
+	// DSU is commonly used as a dedicated motion source (for example, a phone).
+	// Enable its motion stream by default; users can still disable it in settings.
+	set_use_motion(true);
 	if (index >= DSUControllerProvider::kMaxClients)
 		throw std::runtime_error(fmt::format("max {} dsu controllers are supported! given index: {}",
 		                                     DSUControllerProvider::kMaxClients, index));
@@ -13,6 +16,7 @@ DSUController::DSUController(uint32 index)
 DSUController::DSUController(uint32 index, const DSUProviderSettings& settings)
 	: base_type(fmt::format("{}", index), fmt::format("Controller {}", index + 1), settings), m_index(index)
 {
+	set_use_motion(true);
 	if (index >= DSUControllerProvider::kMaxClients)
 		throw std::runtime_error(fmt::format("max {} dsu controllers are supported! given index: {}",
 			DSUControllerProvider::kMaxClients, index));

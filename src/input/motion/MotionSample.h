@@ -136,17 +136,10 @@ public:
 
 	void getVPADGyroChange(float gyro[3])
 	{
-		// filter noise
-		if (fabs(gyro[0]) < 0.012f)
-			gyro[0] = 0.0f;
-		if (fabs(gyro[1]) < 0.012f)
-			gyro[1] = 0.0f;
-		if (fabs(gyro[2]) < 0.012f)
-			gyro[2] = 0.0f;
-		// convert
-		gyro[0] = _radToOrientation(-m_gyro[0]);
-		gyro[1] = _radToOrientation(-m_gyro[1]);
-		gyro[2] = _radToOrientation(m_gyro[2]);
+		// Filter the stored gyro rates (radians/sec) before converting them.
+		gyro[0] = _radToOrientation(fabs(m_gyro[0]) < 0.012f ? 0.0f : -m_gyro[0]);
+		gyro[1] = _radToOrientation(fabs(m_gyro[1]) < 0.012f ? 0.0f : -m_gyro[1]);
+		gyro[2] = _radToOrientation(fabs(m_gyro[2]) < 0.012f ? 0.0f : m_gyro[2]);
 	}
 
 	void getVPADAccelerometer(float acc[3])
